@@ -1,0 +1,41 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: doctor-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/doctor_db
+    username: root
+    password: test
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  data:
+    redis:
+      host: redis-19240.crce217.ap-south-1-1.ec2.cloud.redislabs.com
+      port: 19240
+      username: default
+      password: e3tlE5wIFntk28OBpuAFl3iMeZwBWEFY
+
+  kafka:
+    bootstrap-servers: localhost:19092
+    consumer:
+      group-id: doctor-service-groupdo
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.doctor_service.event
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
